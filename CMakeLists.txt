@@ -1,5 +1,5 @@
-cmake_minimum_required(VERSION 2.6)
-project(UE4)
+cmake_minimum_required (VERSION 2.6)
+project (UE4)
 set(CMAKE_CXX_STANDARD 11)
 
 include("/home/matteo/Documenti/Unreal Projects/Aereo/Intermediate/ProjectFiles/IncludeDirectories.cmake")
@@ -7,7 +7,7 @@ include("/home/matteo/Documenti/Unreal Projects/Aereo/Intermediate/ProjectFiles/
 include("/home/matteo/Documenti/Unreal Projects/Aereo/Intermediate/ProjectFiles/Aereo.cmake")
 
 # Custom target for Aereo project, Debug configuration
-set(MONO_ROOT_PATH "/home/matteo/Documenti/UnrealEngine/Engine/Binaries/DotNET")
+set(MONO_ROOT_PATH "/opt/UnrealEngine/Engine/Binaries/DotNET")
 set(BUILD cd "${MONO_ROOT_PATH}")
 
 add_custom_target(Aereo-Mac-Debug ${BUILD} && mono UnrealBuildTool.exe Aereo Linux Debug -project="/home/matteo/Documenti/Unreal Projects/Aereo/Aereo.uproject" -game)
@@ -36,7 +36,7 @@ add_custom_target(Aereo-Mac-Test-clean ${BUILD} && mono UnrealBuildTool.exe Aere
 include("/home/matteo/Documenti/Unreal Projects/Aereo/Intermediate/ProjectFiles/AereoEditor.cmake")
 
 # Custom target for AereoEditor project, Debug configuration
-set(MONO_ROOT_PATH "/home/matteo/Documenti/UnrealEngine/Engine/Binaries/DotNET")
+set(MONO_ROOT_PATH "/opt/UnrealEngine/Engine/Binaries/DotNET")
 set(BUILD cd "${MONO_ROOT_PATH}")
 
 add_custom_target(AereoEditor-Mac-Debug ${BUILD} && mono UnrealBuildTool.exe AereoEditor Linux Debug -project="/home/matteo/Documenti/Unreal Projects/Aereo/Aereo.uproject" -game)

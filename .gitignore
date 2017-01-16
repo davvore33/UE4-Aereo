@@ -154,7 +154,6 @@ DerivedDataCache/*
 .idea/
 .kdev4/
 Binaries/
-Config/
 Content/
 DerivedDataCache/
 Intermediate/
