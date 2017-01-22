@@ -1,9 +1,7 @@
-
-
 #include "Aereo.h"
 #include "AirplaneDoor.h"
 
-
+#define OUT
 // Sets default values for this component's properties
 UAirplaneDoor::UAirplaneDoor()
 {
@@ -19,23 +17,39 @@ UAirplaneDoor::UAirplaneDoor()
 void UAirplaneDoor::BeginPlay()
 {
 	Super::BeginPlay();
-    ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
     Owner = GetOwner();
+    if(!Owner){
+        UE_LOG(LogTemp, Error, TEXT("This class havn't any Owner"))
+    }
+    if(!PressurePlate){
+        UE_LOG(LogTemp, Error, TEXT("This class havn't any PressurePlate"))
+    }
     StartRotation = Owner->GetActorRotation();
     OpenTime = .0f;
 //    UE_LOG(LogTemp, Warning, TEXT("DoorWaitTime is %f"), DoorWaitTime);
 }
 
 void UAirplaneDoor::OpenDoor() const {
-
+    if(!Owner){ return;}
     Owner->SetActorRotation(rotation);
 }
 
 void UAirplaneDoor::CloseDoor() const {
-
+    if(!Owner){ return;}
     Owner->SetActorRotation(StartRotation);
 }
 
+float UAirplaneDoor::GetMassOfOverlapActor(){
+    float TotalMass = 80.f;
+    TArray<AActor*> OverlappingActors;
+    if(PressurePlate) {
+        PressurePlate->GetOverlappingActors(OUT OverlappingActors);
+        //    for(APhysicsConstraintActor* OverlappingActor : OverlappingActors){
+        //        TotalMass += OverlappingActor->Mass
+        //    }
+    }
+    return TotalMass;
+}
 
 // Called every frame
 void UAirplaneDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
@@ -43,7 +57,7 @@ void UAirplaneDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorC
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	// ...
-    if (PressurePlate->IsOverlappingActor(ActorThatOpens))
+    if (GetMassOfOverlapActor() > 50.f)
     {
         OpenTime = GetWorld()->GetTimeSeconds();
 //        UE_LOG(LogTemp, Warning, TEXT("OpenTime is %f"), OpenTime);

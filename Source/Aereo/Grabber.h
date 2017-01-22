@@ -37,7 +37,11 @@ private:
 
 	void Release();
 
-    FHitResult HittingSomething();
+    const FHitResult GetFirstPhysicsBodyInReach();
 
     void SetupInputComponent();
+
+    FVector GetTheEndReachLine() const;
+
+    FVector GetTheStartReachLine() const;
 };

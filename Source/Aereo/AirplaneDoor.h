@@ -22,21 +22,23 @@ public:
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
 private:
+    ///Variables
     UPROPERTY(EditAnywhere)
     FRotator rotation;
 
     UPROPERTY(EditAnywhere)
-    ATriggerVolume* PressurePlate;
+    ATriggerVolume* PressurePlate = nullptr;
 
     UPROPERTY(EditAnywhere)
     float DoorWaitTime;
 
-    AActor* ActorThatOpens = nullptr;
+    float OpenTime;
     AActor* Owner = nullptr;
     FRotator StartRotation;
+
+    ///Functions
+    float GetMassOfOverlapActor();
     void OpenDoor() const;
     void CloseDoor() const;
-
-    float OpenTime;
 
 };
