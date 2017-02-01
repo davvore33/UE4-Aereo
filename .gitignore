@@ -154,7 +154,6 @@ DerivedDataCache/*
 .idea/
 .kdev4/
 Binaries/
-Content/
 DerivedDataCache/
 Intermediate/
 Would skip repository Plugins/CLionSourceCodeAccess

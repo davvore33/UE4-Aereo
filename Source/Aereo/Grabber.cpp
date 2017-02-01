@@ -68,7 +68,7 @@ FVector UGrabber::GetTheStartReachLine() const {
 }
 
 void UGrabber::Grab(){
-    UE_LOG(LogTemp, Warning, TEXT("Se continui a premermi così mi eccito"));
+    UE_LOG(LogTemp, Warning, TEXT("Se continui a premermi cosi mi eccito"));
     auto HitRes = GetFirstPhysicsBodyInReach();
     UPrimitiveComponent *hittedComponent = HitRes.GetComponent();
     AActor* hittedActor = HitRes.GetActor();
@@ -82,7 +82,7 @@ void UGrabber::Grab(){
 }
 
 void UGrabber::Release(){
-    UE_LOG(LogTemp, Warning, TEXT("Se continui a lasciarmi così mi eccito"));
+    UE_LOG(LogTemp, Warning, TEXT("Se continui a lasciarmi cosi mi eccito"));
     if (!PhysicsHandler) { return;}
     PhysicsHandler->ReleaseComponent();
 }

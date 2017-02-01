@@ -24,29 +24,19 @@ void UAirplaneDoor::BeginPlay()
     if(!PressurePlate){
         UE_LOG(LogTemp, Error, TEXT("This class havn't any PressurePlate"))
     }
-    StartRotation = Owner->GetActorRotation();
-    OpenTime = .0f;
 //    UE_LOG(LogTemp, Warning, TEXT("DoorWaitTime is %f"), DoorWaitTime);
 }
 
-void UAirplaneDoor::OpenDoor() const {
-    if(!Owner){ return;}
-    Owner->SetActorRotation(rotation);
-}
-
-void UAirplaneDoor::CloseDoor() const {
-    if(!Owner){ return;}
-    Owner->SetActorRotation(StartRotation);
-}
 
 float UAirplaneDoor::GetMassOfOverlapActor(){
-    float TotalMass = 80.f;
+    float TotalMass = 0.f;
     TArray<AActor*> OverlappingActors;
     if(PressurePlate) {
         PressurePlate->GetOverlappingActors(OUT OverlappingActors);
-        //    for(APhysicsConstraintActor* OverlappingActor : OverlappingActors){
-        //        TotalMass += OverlappingActor->Mass
-        //    }
+        for (const auto& Actor : OverlappingActors) {
+            TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+            UE_LOG(LogTemp, Warning, TEXT("%s on pressure plate"), *Actor->GetName())
+        }
     }
     return TotalMass;
 }
@@ -57,16 +47,12 @@ void UAirplaneDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorC
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 
 	// ...
-    if (GetMassOfOverlapActor() > 50.f)
+    if (GetMassOfOverlapActor() > TriggerMass)
     {
-        OpenTime = GetWorld()->GetTimeSeconds();
-//        UE_LOG(LogTemp, Warning, TEXT("OpenTime is %f"), OpenTime);
-        OpenDoor();
-    }
-    if(OpenTime!=.0f){
-        if(DoorWaitTime<GetWorld()->GetTimeSeconds()-OpenTime){
-            CloseDoor();
-        }
+        UE_LOG(LogTemp, Warning, TEXT("Mass is %f"), GetMassOfOverlapActor());
+        OnOpen.Broadcast();
+    } else{
+        OnClose.Broadcast();
     }
 
 }

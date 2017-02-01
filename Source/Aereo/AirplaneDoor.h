@@ -1,10 +1,9 @@
-
-
 #pragma once
 
 #include "Components/ActorComponent.h"
 #include "AirplaneDoor.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDoorEvent);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class AEREO_API UAirplaneDoor : public UActorComponent
@@ -23,22 +22,22 @@ public:
 
 private:
     ///Variables
-    UPROPERTY(EditAnywhere)
-    FRotator rotation;
 
     UPROPERTY(EditAnywhere)
     ATriggerVolume* PressurePlate = nullptr;
 
     UPROPERTY(EditAnywhere)
-    float DoorWaitTime;
+    float TriggerMass = 30.f;
 
-    float OpenTime;
+    UPROPERTY(BlueprintAssignable)
+    FDoorEvent OnOpen;
+
+    UPROPERTY(BlueprintAssignable)
+    FDoorEvent OnClose;
+
     AActor* Owner = nullptr;
-    FRotator StartRotation;
 
     ///Functions
     float GetMassOfOverlapActor();
-    void OpenDoor() const;
-    void CloseDoor() const;
 
 };
